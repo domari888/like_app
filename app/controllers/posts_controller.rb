@@ -2,7 +2,7 @@ class PostsController < ApplicationController
   before_action :set_post, only: %i[edit update destroy]
 
   def index
-    @posts = Post.includes(:user).order(:created_at)
+    @posts = Post.includes(:user, :likes).order(:created_at)
   end
 
   def new
@@ -15,7 +15,7 @@ class PostsController < ApplicationController
   end
 
   def show
-    @post = Post.find(params[:id]) 
+    @post = Post.find(params[:id])
   end
 
   def edit
@@ -38,6 +38,8 @@ class PostsController < ApplicationController
   end
 
   def set_post
+    # 「自分の投稿」の中から URL の :id に対応する投稿を探す
+    # 「他人の投稿」の場合はエラーを出す
     @post = current_user.posts.find(params[:id])
   end
 end

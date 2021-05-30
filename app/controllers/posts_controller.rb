@@ -38,6 +38,8 @@ class PostsController < ApplicationController
   end
 
   def set_post
+    # 「自分の投稿」の中から URL の :id に対応する投稿を探す
+    # 「他人の投稿」の場合はエラーを出す
     @post = current_user.posts.find(params[:id])
   end
 end
